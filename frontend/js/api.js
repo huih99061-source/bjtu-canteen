@@ -2,7 +2,7 @@
 // api.js - 与后端Spring Boot接口通信
 // ====================================================
 
-const API_BASE = 'http://localhost:8888/api';
+const API_BASE = 'http://49.233.22.6:8888/api';
 
 async function apiFetch(path, options = {}) {
   try {
