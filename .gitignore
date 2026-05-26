@@ -1,0 +1,7 @@
+backend/target/
+*.bak
+*.iml
+.idea/
+.DS_Store
+backend-out.txt
+backend-err.txt

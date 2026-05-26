@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北交大食堂就餐仿真系统</title>
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- ===== 顶栏 ===== -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo">
+      <span class="logo-icon">🍱</span>
+      <div>
+        <div class="logo-title">北京交通大学</div>
+        <div class="logo-sub">学生活动中心食堂 · 就餐仿真系统</div>
+      </div>
+    </div>
+  </div>
+  <div class="topbar-center">
+    <div class="sim-clock">
+      <span class="clock-label">仿真时间</span>
+      <span id="simTime" class="clock-time">--:--</span>
+      <span id="simDate" class="clock-date">--月--日</span>
+      <span id="mealPeriodBadge" class="period-badge off">非就餐</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="ctrl-panel">
+      <button id="btnStart"  class="btn btn-green"  onclick="simControl('start')">▶ 开始</button>
+      <button id="btnPause"  class="btn btn-yellow" onclick="simControl('pause')">⏸ 暂停</button>
+      <button id="btnReset"  class="btn btn-gray"   onclick="simControl('reset')">↺ 重置</button>
+      <div class="speed-slider-wrap">
+        <label>速度</label>
+        <input type="range" class="speed-slider" id="speedSlider" min="0" max="6" step="1" value="1" oninput="setSpeedBySlider(this.value)">
+        <span class="speed-val-label" id="speedLabel">1x</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 时段时间轴 ===== -->
+<div class="period-timeline">
+  <div class="timeline-track">
+    <div class="timeline-seg breakfast" style="left:5.6%;width:11.1%">早餐</div>
+    <div class="timeline-seg lunch"     style="left:27.8%;width:11.1%">午餐</div>
+    <div class="timeline-seg dinner"    style="left:61.1%;width:11.1%">晚餐</div>
+    <div class="timeline-cursor" id="timelineCursor" style="left:0%"></div>
+  </div>
+  <div class="timeline-labels">
+    <span>06:00</span><span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span><span>24:00</span>
+  </div>
+</div>
+
+<!-- ===== 主布局 ===== -->
+<main class="main-layout">
+
+  <!-- 左侧：统计概览 -->
+  <aside class="sidebar">
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-body">
+        <div class="stat-val" id="statPeople">0</div>
+        <div class="stat-label">当前总人数</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">🪑</div>
+      <div class="stat-body">
+        <div class="stat-val green" id="statEmpty">0</div>
+        <div class="stat-label">剩余空座</div>
+      </div>
+    </div>
+    <div class="ring-card">
+      <div id="ringChart"></div>
+      <div class="ring-label">上座率</div>
+    </div>
+
+    <!-- 窗口排队列表 -->
+    <div class="section-title">📋 窗口排队</div>
+    <div id="windowList" class="window-list"></div>
+
+    <!-- 图例 -->
+    <div class="legend">
+      <div class="legend-title">座位图例</div>
+      <div class="legend-item"><span class="dot empty"></span>空座</div>
+      <div class="legend-item"><span class="dot reserved"></span>已占座</div>
+      <div class="legend-item"><span class="dot dining"></span>就餐中</div>
+    </div>
+    <div class="legend">
+      <div class="legend-title">队列图例</div>
+      <div class="legend-item"><span class="qbar low"></span>少 (≤3人)</div>
+      <div class="legend-item"><span class="qbar medium"></span>中 (4-8人)</div>
+      <div class="legend-item"><span class="qbar high"></span>多 (&gt;8人)</div>
+    </div>
+  </aside>
+
+  <!-- 中间：食堂平面图 -->
+  <section class="floor-view">
+    <div class="floor-header">
+      <span class="floor-title">学生活动中心食堂（一层）平面图</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="floor-tip">点击空座可手动占座</span>
+        <button class="chart-toggle" onclick="toggleChartPanel()">📈 趋势图</button>
+      </div>
+    </div>
+
+    <!-- 窗口区域 -->
+    <div class="window-zone">
+      <div class="window-zone-label">— 窗口区 —</div>
+      <div id="windowCards" class="window-cards-row"></div>
+    </div>
+
+    <!-- 座位区域 -->
+    <div class="seat-zone">
+      <div class="seat-zone-header">
+        <span class="seat-zone-label">— 座位区 —</span>
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="setSeatView('dot',this)">点阵</button>
+          <button class="view-btn"        onclick="setSeatView('heat',this)">热力图</button>
+        </div>
+      </div>
+      <div id="tableContainer" class="table-container"></div>
+      <canvas id="heatmapCanvas"></canvas>
+    </div>
+  </section>
+
+  <!-- 右侧：反馈面板 -->
+  <aside class="feedback-panel">
+    <div class="section-title">💬 菜品评价</div>
+    <div class="feedback-form">
+      <select id="fbWindow" class="fb-select">
+        <option value="">选择窗口</option>
+        <option value="1">米饭窗口</option>
+        <option value="2">面条窗口</option>
+        <option value="3">炒菜窗口</option>
+        <option value="4">包子馒头</option>
+        <option value="5">麻辣烫</option>
+        <option value="6">饮品甜点</option>
+        <option value="7">清真窗口</option>
+      </select>
+      <div class="star-row" id="starRow">
+        <span class="star" data-v="1" onclick="setStar(1)">★</span>
+        <span class="star" data-v="2" onclick="setStar(2)">★</span>
+        <span class="star" data-v="3" onclick="setStar(3)">★</span>
+        <span class="star" data-v="4" onclick="setStar(4)">★</span>
+        <span class="star" data-v="5" onclick="setStar(5)">★</span>
+      </div>
+      <textarea id="fbComment" class="fb-textarea" placeholder="写点评价吧…" rows="3"></textarea>
+      <button class="btn btn-green" onclick="submitFeedback()" style="width:100%">提交评价</button>
+    </div>
+    <div class="section-title" style="margin-top:16px">📝 最新评价</div>
+    <div id="feedbackList" class="feedback-list"></div>
+
+    <!-- 窗口详情浮层触发区 -->
+    <div class="section-title" style="margin-top:16px">🍽️ 查看菜单</div>
+    <div class="menu-btns" id="menuBtns"></div>
+  </aside>
+
+</main>
+
+<!-- ===== 折线图面板 ===== -->
+<div class="chart-panel" id="chartPanel">
+  <div class="chart-header">
+    <span class="chart-title">📈 窗口排队实时趋势（最近60秒）</span>
+  </div>
+  <canvas id="queueChart"></canvas>
+</div>
+
+<!-- ===== 窗口详情浮层 ===== -->
+<div id="windowModal" class="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span id="modalTitle">窗口详情</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalContent" class="modal-content"></div>
+  </div>
+</div>
+
+<!-- ===== 消息提示 ===== -->
+<div id="toast" class="toast"></div>
+
+<script src="js/api.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  // 页面启动
+  initUI();
+  startPolling();
+  loadFeedback();
+</script>
+</body>
+</html>

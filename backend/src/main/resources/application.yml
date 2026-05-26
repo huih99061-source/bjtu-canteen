@@ -1,0 +1,31 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/bjtu_canteen?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:huanghui}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.bjtu.canteen.model
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.bjtu.canteen: DEBUG
+
+# 仿真配置
+simulation:
+  speed: 60          # 仿真速度倍率: 1=实时, 60=1秒=1分钟
+  auto-start: true   # 启动时自动开始仿真
