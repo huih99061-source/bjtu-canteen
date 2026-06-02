@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS window_info (
     category VARCHAR(50) COMMENT '经营品类',
     avg_serve_seconds INT DEFAULT 90 COMMENT '平均服务时间(秒)',
     is_open TINYINT(1) DEFAULT 1 COMMENT '是否营业',
-    FOREIGN KEY (floor_id) REFERENCES floor(id)
 ) COMMENT='窗口信息表';
 
 -- 菜品表
@@ -34,7 +33,6 @@ CREATE TABLE IF NOT EXISTS food (
     food_name VARCHAR(100) NOT NULL COMMENT '菜品名称',
     food_price DECIMAL(6,2) NOT NULL COMMENT '菜品价格',
     food_amount INT DEFAULT 100 COMMENT '剩余数量',
-    FOREIGN KEY (window_id) REFERENCES window_info(id)
 ) COMMENT='菜品表';
 
 -- 座位表
@@ -46,7 +44,6 @@ CREATE TABLE IF NOT EXISTS seat (
     x_pos DECIMAL(8,2) COMMENT 'X坐标百分比',
     y_pos DECIMAL(8,2) COMMENT 'Y坐标百分比',
     status ENUM('empty','reserved','dining') DEFAULT 'empty' COMMENT '状态',
-    FOREIGN KEY (floor_id) REFERENCES floor(id)
 ) COMMENT='座位表';
 
 -- 排队记录表
@@ -55,7 +52,6 @@ CREATE TABLE IF NOT EXISTS queue_record (
     window_id INT NOT NULL,
     queue_count INT DEFAULT 0,
     record_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (window_id) REFERENCES window_info(id)
 ) COMMENT='排队记录表';
 
 -- 评价表
@@ -63,10 +59,9 @@ CREATE TABLE IF NOT EXISTS feedback (
     id INT PRIMARY KEY AUTO_INCREMENT,
     window_id INT NOT NULL,
     food_id INT,
-    rating INT CHECK (rating BETWEEN 1 AND 5),
+    rating INT,
     comment_text VARCHAR(500),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (window_id) REFERENCES window_info(id)
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ) COMMENT='评价表';
 
 -- 仿真数据记录表
