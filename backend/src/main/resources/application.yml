@@ -4,6 +4,10 @@ server:
     context-path: /api
 
 spring:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/bjtu_canteen?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}
     username: ${DB_USERNAME:root}
@@ -24,6 +28,8 @@ mybatis:
 logging:
   level:
     com.bjtu.canteen: DEBUG
+  file:
+    name: canteen.log
 
 # 仿真配置
 simulation:
