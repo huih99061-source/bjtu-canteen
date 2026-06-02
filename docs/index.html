@@ -8,24 +8,26 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --red: #e8192c;
-  --red2: #ff4d5e;
-  --bg: #ffffff;
-  --bg2: #f7f8fa;
-  --bg3: #eef0f4;
-  --text: #0f1115;
-  --text2: #4b5563;
-  --text3: #9ca3af;
-  --border: #e5e7eb;
-  --shadow: 0 4px 24px rgba(0,0,0,0.08);
-  --shadow2: 0 2px 8px rgba(0,0,0,0.06);
+  --blue:    #3b82f6;
+  --blue-dk: #1d4ed8;
+  --blue-lt: #60a5fa;
+  --blue-bg: #eff6ff;
+  --blue-b:  #dbeafe;
+  --text:    #0f172a;
+  --text2:   #475569;
+  --text3:   #94a3b8;
+  --bg:      #ffffff;
+  --bg2:     #f8fafc;
+  --border:  #e2e8f0;
+  --shadow:  0 4px 24px rgba(59,130,246,0.10);
+  --shadow2: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -33,7 +35,7 @@ body {
 /* ── 导航 ── */
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   padding: 0 6%;
@@ -47,54 +49,47 @@ nav {
 }
 .nav-logo {
   width: 34px; height: 34px; border-radius: 9px;
-  background: var(--red);
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dk) 100%);
   display: flex; align-items: center; justify-content: center;
   font-size: 18px;
 }
 .nav-links { display: flex; gap: 28px; }
 .nav-links a {
   color: var(--text2); text-decoration: none;
-  font-size: 14px; font-weight: 500;
-  transition: color .15s;
+  font-size: 14px; font-weight: 500; transition: color .15s;
 }
-.nav-links a:hover { color: var(--text); }
+.nav-links a:hover { color: var(--blue); }
 
 /* ── Hero ── */
 .hero {
-  padding: 96px 6% 80px;
+  padding: 100px 6% 72px;
   text-align: center;
-  background: linear-gradient(180deg, #fff5f6 0%, #ffffff 100%);
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 600px 400px at 50% -80px, rgba(232,25,44,0.08) 0%, transparent 70%);
-  pointer-events: none;
+    radial-gradient(ellipse 700px 500px at 50% -60px, rgba(59,130,246,0.10) 0%, transparent 65%),
+    linear-gradient(180deg, #f0f7ff 0%, #ffffff 55%);
+  position: relative; overflow: hidden;
 }
 .hero-tag {
   display: inline-flex; align-items: center; gap: 6px;
-  background: #fff0f1; border: 1px solid #fecdd0;
-  color: var(--red); border-radius: 20px;
-  padding: 5px 14px; font-size: 13px; font-weight: 600;
-  margin-bottom: 28px;
+  background: var(--blue-bg); border: 1px solid var(--blue-b);
+  color: var(--blue-dk); border-radius: 20px;
+  padding: 5px 16px; font-size: 13px; font-weight: 600;
+  margin-bottom: 28px; letter-spacing: .2px;
 }
 .hero h1 {
-  font-size: clamp(32px, 5.5vw, 60px);
+  font-size: clamp(32px, 5.5vw, 58px);
   font-weight: 800; letter-spacing: -1.5px;
-  line-height: 1.15; color: var(--text);
-  margin-bottom: 22px;
+  line-height: 1.15; margin-bottom: 22px;
 }
 .hero h1 em {
-  font-style: normal; color: var(--red);
-  background: linear-gradient(135deg, var(--red) 0%, var(--red2) 100%);
+  font-style: normal;
+  background: linear-gradient(135deg, var(--blue) 0%, #818cf8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-desc {
   font-size: clamp(15px, 2vw, 18px);
-  color: var(--text2); max-width: 560px;
-  margin: 0 auto 40px; line-height: 1.7;
+  color: var(--text2); max-width: 540px;
+  margin: 0 auto 40px; line-height: 1.75;
 }
 .hero-btns {
   display: flex; gap: 12px;
@@ -102,19 +97,17 @@ nav {
 }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--red);
-  background: linear-gradient(135deg, var(--red) 0%, #c8102e 100%);
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dk) 100%);
   color: #fff; text-decoration: none;
   padding: 15px 36px; border-radius: 12px;
   font-size: 16px; font-weight: 700;
-  box-shadow: 0 4px 20px rgba(232,25,44,0.30);
+  box-shadow: 0 4px 20px rgba(59,130,246,0.35);
   transition: transform .15s, box-shadow .15s;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(232,25,44,0.40);
+  box-shadow: 0 8px 30px rgba(59,130,246,0.45);
 }
-.btn-primary .icon { font-size: 18px; }
 .btn-primary small {
   display: block; font-size: 11px;
   font-weight: 400; opacity: .85; margin-top: 1px;
@@ -125,29 +118,23 @@ nav {
   color: var(--text); text-decoration: none;
   padding: 15px 28px; border-radius: 12px;
   font-size: 15px; font-weight: 600;
-  transition: border-color .15s, background .15s;
+  transition: border-color .15s, box-shadow .15s;
 }
-.btn-ghost:hover { border-color: #d1d5db; background: var(--bg2); }
-
+.btn-ghost:hover { border-color: var(--blue-lt); box-shadow: 0 0 0 3px var(--blue-bg); }
 .hero-meta {
-  margin-top: 20px;
-  display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+  margin-top: 22px;
+  display: flex; justify-content: center; gap: 22px; flex-wrap: wrap;
   font-size: 13px; color: var(--text3);
 }
 .hero-meta span { display: flex; align-items: center; gap: 5px; }
-.hero-meta .dot { color: #22c55e; font-size: 10px; }
+.hero-meta .dot { color: #22c55e; font-size: 9px; }
 
-/* ── 数据统计栏 ── */
-.stats-bar {
-  padding: 0 6%;
-  margin-top: -1px;
-}
+/* ── 统计栏 ── */
+.stats-bar { padding: 0 6%; }
 .stats-inner {
-  max-width: 800px; margin: 0 auto;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
+  max-width: 780px; margin: 0 auto;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow);
   display: grid; grid-template-columns: repeat(4, 1fr);
   overflow: hidden;
 }
@@ -157,107 +144,110 @@ nav {
 }
 .stat-item:last-child { border-right: none; }
 .stat-num {
-  font-size: 28px; font-weight: 800;
-  color: var(--red); line-height: 1;
+  font-size: 30px; font-weight: 800; line-height: 1;
   margin-bottom: 6px;
+  background: linear-gradient(135deg, var(--blue) 0%, #818cf8 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .stat-lbl { font-size: 13px; color: var(--text2); }
 
-/* ── 功能展示 ── */
+/* ── 功能 ── */
 .features-section { padding: 96px 6%; background: var(--bg2); }
-.section-head { text-align: center; margin-bottom: 56px; }
+.section-head { text-align: center; margin-bottom: 52px; }
 .section-head h2 {
-  font-size: clamp(24px, 3.5vw, 38px);
-  font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 800; letter-spacing: -.5px; margin-bottom: 10px;
 }
 .section-head p { font-size: 16px; color: var(--text2); }
-
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px; max-width: 1000px; margin: 0 auto;
+  gap: 18px; max-width: 980px; margin: 0 auto;
 }
 .feat-card {
   background: #fff; border-radius: 16px;
-  padding: 32px; border: 1px solid var(--border);
+  padding: 28px; border: 1px solid var(--border);
   box-shadow: var(--shadow2);
-  transition: transform .2s, box-shadow .2s;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
 }
 .feat-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
+  border-color: var(--blue-b);
 }
 .feat-icon {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: #fff0f1; display: flex; align-items: center;
-  justify-content: center; font-size: 24px;
-  margin-bottom: 16px;
-}
-.feat-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-.feat-card p { font-size: 14px; color: var(--text2); line-height: 1.6; }
-
-/* ── 使用步骤 ── */
-.steps-section { padding: 96px 6%; }
-.steps-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0; max-width: 900px; margin: 0 auto;
-  position: relative;
-}
-.steps-grid::after {
-  content: '';
-  position: absolute; top: 36px; left: 10%; right: 10%; height: 2px;
-  background: linear-gradient(90deg, var(--red) 0%, #fecdd0 100%);
-  z-index: 0;
-}
-.step-card {
-  text-align: center; padding: 0 20px;
-  position: relative; z-index: 1;
-}
-.step-circle {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: #fff; border: 2px solid var(--red);
+  width: 46px; height: 46px; border-radius: 12px;
+  background: var(--blue-bg);
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px; margin: 0 auto 20px;
-  box-shadow: 0 0 0 6px #fff;
+  font-size: 22px; margin-bottom: 14px;
+}
+.feat-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.feat-card p { font-size: 14px; color: var(--text2); line-height: 1.65; }
+
+/* ── 步骤 ── */
+.steps-section { padding: 96px 6%; }
+.steps-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; max-width: 880px; margin: 0 auto;
   position: relative;
 }
-.step-circle .step-n {
-  position: absolute; top: -4px; right: -4px;
+.steps-row::before {
+  content: '';
+  position: absolute; top: 35px; left: calc(12.5% + 10px); right: calc(12.5% + 10px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue-b) 0%, var(--blue) 50%, var(--blue-b) 100%);
+}
+.step-item { text-align: center; padding: 0 16px; position: relative; }
+.step-circle {
+  width: 70px; height: 70px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--blue-b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin: 0 auto 18px;
+  box-shadow: 0 0 0 6px #fff, 0 2px 12px rgba(59,130,246,0.15);
+  position: relative; z-index: 1;
+  transition: border-color .2s, box-shadow .2s;
+}
+.step-item:hover .step-circle {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 6px #fff, 0 4px 20px rgba(59,130,246,0.25);
+}
+.step-num {
+  position: absolute; top: -5px; right: -5px;
   width: 22px; height: 22px; border-radius: 50%;
-  background: var(--red); color: #fff;
+  background: var(--blue); color: #fff;
   font-size: 11px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
 }
-.step-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-.step-card p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.step-item h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.step-item p { font-size: 13px; color: var(--text2); line-height: 1.5; }
 
 /* ── 系统要求 ── */
 .req-section { padding: 80px 6%; background: var(--bg2); }
-.req-box {
-  max-width: 760px; margin: 0 auto;
+.req-card {
+  max-width: 740px; margin: 0 auto;
   background: #fff; border-radius: 20px;
-  border: 1px solid var(--border);
-  overflow: hidden; box-shadow: var(--shadow);
+  border: 1px solid var(--border); overflow: hidden;
+  box-shadow: var(--shadow);
 }
-.req-header {
-  padding: 20px 32px;
-  background: linear-gradient(135deg, var(--red) 0%, #c8102e 100%);
+.req-top {
+  padding: 22px 32px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dk) 100%);
   color: #fff;
 }
-.req-header h3 { font-size: 16px; font-weight: 700; }
-.req-header p { font-size: 13px; opacity: .85; margin-top: 2px; }
-.req-body { padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.req-item { display: flex; gap: 14px; align-items: flex-start; }
-.req-item .ico {
+.req-top h3 { font-size: 16px; font-weight: 700; }
+.req-top p { font-size: 13px; opacity: .85; margin-top: 3px; }
+.req-grid { padding: 28px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.req-row { display: flex; gap: 14px; align-items: flex-start; }
+.req-ico {
   width: 40px; height: 40px; border-radius: 10px;
-  background: var(--bg2); display: flex;
+  background: var(--blue-bg); display: flex;
   align-items: center; justify-content: center;
   font-size: 20px; flex-shrink: 0;
 }
-.req-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
-.req-item p { font-size: 13px; color: var(--text2); }
+.req-row h4 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.req-row p { font-size: 13px; color: var(--text2); }
 .req-tip {
-  margin: 0 32px 32px;
+  margin: 0 32px 28px;
   background: #f0fdf4; border: 1px solid #bbf7d0;
   border-radius: 10px; padding: 12px 16px;
   font-size: 13px; color: #15803d;
@@ -267,17 +257,23 @@ nav {
 /* ── CTA ── */
 .cta-section {
   padding: 96px 6%; text-align: center;
-  background: linear-gradient(135deg, var(--red) 0%, #c8102e 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #818cf8 100%);
+  color: #fff; position: relative; overflow: hidden;
 }
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.cta-inner { position: relative; z-index: 1; }
 .cta-section h2 {
   font-size: clamp(24px, 4vw, 40px);
-  font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  font-weight: 800; letter-spacing: -.5px; margin-bottom: 10px;
 }
-.cta-section p { font-size: 16px; opacity: .85; margin-bottom: 36px; }
+.cta-section p { font-size: 15px; opacity: .80; margin-bottom: 36px; }
 .btn-white {
   display: inline-flex; align-items: center; gap: 10px;
-  background: #fff; color: var(--red);
+  background: rgba(255,255,255,0.95); color: var(--blue-dk);
   text-decoration: none; padding: 15px 36px;
   border-radius: 12px; font-size: 16px; font-weight: 700;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
@@ -285,25 +281,26 @@ nav {
 }
 .btn-white:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
 }
 
 /* ── Footer ── */
 footer {
-  padding: 28px 6%;
-  display: flex; align-items: center; justify-content: space-between;
+  padding: 26px 6%;
   border-top: 1px solid var(--border);
-  font-size: 13px; color: var(--text3);
+  display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 10px;
+  font-size: 13px; color: var(--text3);
 }
 footer a { color: var(--text3); text-decoration: none; }
-footer a:hover { color: var(--text2); }
+footer a:hover { color: var(--blue); }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .stats-inner { grid-template-columns: repeat(2, 1fr); }
   .stat-item:nth-child(2) { border-right: none; }
-  .steps-grid::after { display: none; }
-  .req-body { grid-template-columns: 1fr; }
+  .steps-row { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .steps-row::before { display: none; }
+  .req-grid { grid-template-columns: 1fr; }
   .nav-links { display: none; }
 }
 </style>
@@ -326,7 +323,7 @@ footer a:hover { color: var(--text2); }
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-tag">🎓 北京交通大学 · 经济管理学院综合实训</div>
+  <div class="hero-tag">🎓 北京交通大学 · 计算机学院</div>
   <h1>学生活动中心食堂<br><em>就餐仿真系统</em></h1>
   <p class="hero-desc">
     实时可视化食堂座位占用、窗口排队与菜品评价，
@@ -335,10 +332,10 @@ footer a:hover { color: var(--text2); }
   <div class="hero-btns">
     <a class="btn-primary"
        href="https://github.com/huih99061-source/bjtu-canteen/releases/latest/download/bjtu-canteen-portable.zip">
-      <span class="icon">⬇</span>
+      <span>⬇</span>
       <span>
         立即下载
-        <small>Windows 10 / 11 · 约 400 MB</small>
+        <small>Windows 10 / 11 &nbsp;·&nbsp; 约 400 MB</small>
       </span>
     </a>
     <a class="btn-ghost"
@@ -354,7 +351,7 @@ footer a:hover { color: var(--text2); }
   </div>
 </section>
 
-<!-- 数据栏 -->
+<!-- 统计栏 -->
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat-item">
@@ -386,12 +383,12 @@ footer a:hover { color: var(--text2); }
     <div class="feat-card">
       <div class="feat-icon">🪑</div>
       <h3>实时座位平面图</h3>
-      <p>80 桌 × 4 座共 320 个座位，支持点阵视图与动态热力图两种模式实时展示占用状态。</p>
+      <p>80 桌 × 4 座共 320 个座位，点阵视图与动态热力图两种模式实时展示占用状态。</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">📋</div>
       <h3>窗口排队可视化</h3>
-      <p>7 个窗口队列人数实时更新，颜色区分拥挤程度，并附带历史趋势折线图。</p>
+      <p>7 个窗口队列人数实时更新，颜色区分拥挤程度，附带历史趋势折线图。</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">🕐</div>
@@ -419,40 +416,40 @@ footer a:hover { color: var(--text2); }
 <!-- 步骤 -->
 <section class="steps-section" id="steps">
   <div class="section-head">
-    <h2>四步启动</h2>
-    <p>无需安装任何软件，解压即用</p>
+    <h2>四步启动，开箱即用</h2>
+    <p>无需安装任何软件，解压即可运行</p>
   </div>
-  <div class="steps-grid">
-    <div class="step-card">
+  <div class="steps-row">
+    <div class="step-item">
       <div class="step-circle">
-        <span>📦</span>
-        <span class="step-n">1</span>
+        📦
+        <span class="step-num">1</span>
       </div>
       <h3>下载压缩包</h3>
-      <p>点击下载按钮获取<br>bjtu-canteen-portable.zip</p>
+      <p>获取<br>bjtu-canteen-portable.zip</p>
     </div>
-    <div class="step-card">
+    <div class="step-item">
       <div class="step-circle">
-        <span>📂</span>
-        <span class="step-n">2</span>
+        📂
+        <span class="step-num">2</span>
       </div>
       <h3>解压到文件夹</h3>
-      <p>右键解压到任意位置<br>建议路径不含中文</p>
+      <p>建议解压到<br>无中文的路径</p>
     </div>
-    <div class="step-card">
+    <div class="step-item">
       <div class="step-circle">
-        <span>▶️</span>
-        <span class="step-n">3</span>
+        ▶️
+        <span class="step-num">3</span>
       </div>
       <h3>双击启动系统.exe</h3>
       <p>首次约等 30 秒<br>自动初始化数据库</p>
     </div>
-    <div class="step-card">
+    <div class="step-item">
       <div class="step-circle">
-        <span>🎉</span>
-        <span class="step-n">4</span>
+        🎉
+        <span class="step-num">4</span>
       </div>
-      <h3>自动打开浏览器</h3>
+      <h3>浏览器自动打开</h3>
       <p>桌面生成快捷方式<br>下次直接点击启动</p>
     </div>
   </div>
@@ -464,35 +461,35 @@ footer a:hover { color: var(--text2); }
     <h2>系统要求</h2>
     <p>绿色便携，无需提前安装任何软件</p>
   </div>
-  <div class="req-box">
-    <div class="req-header">
+  <div class="req-card">
+    <div class="req-top">
       <h3>运行环境</h3>
       <p>压缩包内已内置 JRE 21 与 MySQL，一切开箱即用</p>
     </div>
-    <div class="req-body">
-      <div class="req-item">
-        <div class="ico">🖥</div>
+    <div class="req-grid">
+      <div class="req-row">
+        <div class="req-ico">🖥</div>
         <div>
           <h4>操作系统</h4>
           <p>Windows 10 / 11（64位）</p>
         </div>
       </div>
-      <div class="req-item">
-        <div class="ico">💾</div>
+      <div class="req-row">
+        <div class="req-ico">💾</div>
         <div>
           <h4>磁盘空间</h4>
           <p>解压后约 800 MB</p>
         </div>
       </div>
-      <div class="req-item">
-        <div class="ico">🧠</div>
+      <div class="req-row">
+        <div class="req-ico">🧠</div>
         <div>
           <h4>运行内存</h4>
           <p>建议 4 GB 及以上</p>
         </div>
       </div>
-      <div class="req-item">
-        <div class="ico">🌐</div>
+      <div class="req-row">
+        <div class="req-ico">🌐</div>
         <div>
           <h4>网络</h4>
           <p>无需网络，完全本地运行</p>
@@ -500,24 +497,26 @@ footer a:hover { color: var(--text2); }
       </div>
     </div>
     <div class="req-tip">
-      ✅ &nbsp;无需安装 Java、MySQL 或任何开发环境，下载即可使用
+      ✅ &nbsp;无需安装 Java、MySQL 或任何开发环境，下载解压即可使用
     </div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-section">
-  <h2>立即体验食堂仿真系统</h2>
-  <p>S005 小组 &nbsp;·&nbsp; 黄惠 &nbsp;·&nbsp; 赖特 &nbsp;·&nbsp; 姚沚汐</p>
-  <a class="btn-white"
-     href="https://github.com/huih99061-source/bjtu-canteen/releases/latest/download/bjtu-canteen-portable.zip">
-    <span>⬇</span> 下载便携版
-  </a>
+  <div class="cta-inner">
+    <h2>立即体验食堂仿真系统</h2>
+    <p>S005 小组 &nbsp;·&nbsp; 黄惠 &nbsp;·&nbsp; 赖特 &nbsp;·&nbsp; 姚沚汐</p>
+    <a class="btn-white"
+       href="https://github.com/huih99061-source/bjtu-canteen/releases/latest/download/bjtu-canteen-portable.zip">
+      ⬇ &nbsp;下载便携版
+    </a>
+  </div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <span>© 2026 北京交通大学经济管理学院 S005 小组</span>
+  <span>© 2026 北京交通大学 S005 小组</span>
   <span>
     <a href="https://github.com/huih99061-source/bjtu-canteen" target="_blank">GitHub</a>
     &nbsp;·&nbsp;
