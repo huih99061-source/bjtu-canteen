@@ -384,7 +384,8 @@ async function submitFeedback() {
     setStar(0);
     loadFeedback();
   } else {
-    showToast('❌ 提交失败，请检查后端连接');
+    const reason = (res && res.msg) ? res.msg : '请检查后端连接';
+    showToast('❌ 提交失败：' + reason);
   }
 }
 

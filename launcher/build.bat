@@ -41,7 +41,7 @@ if %errorlevel% neq 0 (
     echo [错误] 编译 Launcher.cs 失败
     pause & exit /b 1
 )
-echo       ✅ portable\启动系统.exe
+echo       OK: portable\启动系统.exe
 
 :: ── 编译停止器 ─────────────────────────────────────
 echo [2/2] 编译 停止系统.exe ...
@@ -52,8 +52,8 @@ if %errorlevel% neq 0 (
     echo [错误] 编译 Stopper.cs 失败
     pause & exit /b 1
 )
-echo       ✅ portable\停止系统.exe
+echo       OK: portable\停止系统.exe
 
 echo.
-echo ✅ 编译完成！两个 exe 已输出到 portable\ 目录。
+echo 编译完成！两个 exe 已输出到 portable\ 目录。
 echo.

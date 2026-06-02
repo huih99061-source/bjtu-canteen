@@ -99,9 +99,13 @@ public class CanteenController {
     @PostMapping("/feedback")
     public ApiResult<?> addFeedback(@RequestBody Feedback fb) {
         if (fb.getRating() == null || fb.getRating() < 1 || fb.getRating() > 5)
-        return ApiResult.fail("评分必须在1-5之间");
-        feedbackMapper.insert(fb);
-        return ApiResult.ok("评价提交成功");
+            return ApiResult.fail("评分必须在1-5之间");
+        try {
+            feedbackMapper.insert(fb);
+            return ApiResult.ok("评价提交成功");
+        } catch (Exception e) {
+            return ApiResult.fail("数据库错误: " + e.getMessage());
+        }
     }
 
     /** 获取评价列表 */
