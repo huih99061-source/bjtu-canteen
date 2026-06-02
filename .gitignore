@@ -5,3 +5,15 @@ backend/target/
 .DS_Store
 backend-out.txt
 backend-err.txt
+
+# 便携包构建产物（不入 git，通过 GitHub Releases 发布）
+portable/jre/
+portable/mysql/bin/
+portable/mysql/data/
+portable/mysql/lib/
+portable/mysql/share/
+portable/app.jar
+portable/init.sql
+portable/frontend/
+portable/*.exe
+bjtu-canteen-portable.zip

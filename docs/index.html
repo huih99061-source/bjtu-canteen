@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北京交通大学食堂仿真系统 · 下载</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red:    #c8102e;
+  --red-dk: #a00d25;
+  --blue:   #1a3a6b;
+  --bg:     #0d1117;
+  --bg2:    #161b22;
+  --bg3:    #21262d;
+  --border: #30363d;
+  --text:   #e6edf3;
+  --sub:    #8b949e;
+  --green:  #3fb950;
+  --yellow: #d29922;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "Microsoft YaHei", "PingFang SC", sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── 顶部导航 ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,17,23,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.nav-logo-text { font-size: 15px; font-weight: 700; color: var(--text); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { color: var(--sub); text-decoration: none; font-size: 14px; transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 5% 64px;
+  text-align: center;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(200,16,46,0.18) 0%, transparent 70%);
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(200,16,46,0.12);
+  border: 1px solid rgba(200,16,46,0.35);
+  color: #e05070;
+  padding: 4px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; letter-spacing: .5px;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: var(--red); }
+.hero-sub {
+  color: var(--sub);
+  font-size: clamp(14px, 2vw, 18px);
+  max-width: 580px; margin: 0 auto 36px;
+}
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+.btn-dl {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--red);
+  color: #fff;
+  padding: 14px 32px; border-radius: 10px;
+  font-size: 16px; font-weight: 700;
+  text-decoration: none;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  box-shadow: 0 0 24px rgba(200,16,46,0.35);
+}
+.btn-dl:hover {
+  background: var(--red-dk);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 32px rgba(200,16,46,0.5);
+}
+.btn-dl .dl-icon { font-size: 20px; }
+.btn-dl small { display: block; font-size: 11px; font-weight: 400; opacity: .8; margin-top: 1px; }
+
+.btn-src {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 14px 24px; border-radius: 10px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, border-color .2s;
+}
+.btn-src:hover { background: #2d333b; border-color: #58a6ff; }
+
+.hero-note {
+  margin-top: 18px;
+  color: var(--sub); font-size: 12px;
+}
+.hero-note span { color: var(--green); font-weight: 600; }
+
+/* ── 截图 / 预览区 ── */
+.preview {
+  padding: 0 5% 64px;
+  display: flex; justify-content: center;
+}
+.preview-wrap {
+  width: 100%; max-width: 900px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg2);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+}
+.preview-bar {
+  background: var(--bg3);
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.dot-red   { width: 12px; height: 12px; border-radius: 50%; background: #f85149; }
+.dot-yel   { width: 12px; height: 12px; border-radius: 50%; background: #d29922; }
+.dot-grn   { width: 12px; height: 12px; border-radius: 50%; background: #3fb950; }
+.preview-url {
+  flex: 1; background: var(--bg); border-radius: 6px;
+  padding: 4px 12px; font-size: 12px; color: var(--sub);
+  text-align: center; margin: 0 8px;
+}
+.preview-body {
+  padding: 32px;
+  font-size: 13px; color: var(--sub);
+  text-align: center;
+}
+.sim-demo {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 12px; margin-top: 12px;
+  text-align: left;
+}
+.demo-panel {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px;
+}
+.demo-stat { margin-bottom: 8px; }
+.demo-stat .num { font-size: 24px; font-weight: 800; color: var(--text); }
+.demo-stat .lbl { font-size: 11px; color: var(--sub); }
+.demo-seats {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; margin-top: 4px;
+}
+.seat {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--bg);
+}
+.seat.d { background: #3fb950; }
+.seat.r { background: #d29922; }
+.seat.e { background: var(--bg); border: 1px solid var(--border); }
+.demo-queue { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.q-item { display: flex; align-items: center; gap: 6px; }
+.q-bar-wrap { flex: 1; background: var(--bg); border-radius: 3px; height: 6px; overflow: hidden; }
+.q-bar { height: 100%; border-radius: 3px; }
+.q-bar.low    { background: var(--green); }
+.q-bar.medium { background: var(--yellow); }
+.q-bar.high   { background: #f85149; }
+.q-name { font-size: 10px; color: var(--sub); width: 44px; flex-shrink: 0; }
+.q-cnt  { font-size: 10px; color: var(--sub); width: 20px; text-align: right; flex-shrink: 0; }
+
+/* ── 步骤 ── */
+.steps-section { padding: 64px 5%; }
+.section-title {
+  text-align: center;
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.section-sub { text-align: center; color: var(--sub); font-size: 15px; margin-bottom: 48px; }
+
+.steps {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  max-width: 900px; margin: 0 auto;
+}
+.step {
+  flex: 1; min-width: 200px; max-width: 260px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px 24px;
+  text-align: center; position: relative;
+  transition: border-color .2s, transform .2s;
+}
+.step:hover { border-color: var(--red); transform: translateY(-4px); }
+.step-num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--red); color: #fff;
+  font-size: 18px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.step-icon { font-size: 36px; margin-bottom: 12px; }
+.step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.step p { font-size: 13px; color: var(--sub); }
+.step-arrow {
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--border); font-size: 20px; font-weight: 300;
+  pointer-events: none;
+}
+
+/* ── 功能特性 ── */
+.features-section { padding: 0 5% 64px; }
+.features {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px; max-width: 1000px; margin: 0 auto;
+}
+.feat {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px;
+  transition: border-color .2s;
+}
+.feat:hover { border-color: rgba(200,16,46,0.5); }
+.feat-icon { font-size: 28px; margin-bottom: 12px; }
+.feat h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.feat p { font-size: 13px; color: var(--sub); }
+
+/* ── 系统要求 ── */
+.req-section { padding: 0 5% 64px; }
+.req-box {
+  max-width: 700px; margin: 0 auto;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 32px;
+}
+.req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.req-item { display: flex; align-items: flex-start; gap: 12px; }
+.req-item .ico { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.req-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.req-item p { font-size: 12px; color: var(--sub); }
+.req-note {
+  margin-top: 20px; padding: 12px 16px;
+  background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.2);
+  border-radius: 8px; font-size: 13px; color: var(--green);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* ── 底部 CTA ── */
+.cta-section {
+  padding: 64px 5%; text-align: center;
+  background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(200,16,46,0.12) 0%, transparent 70%);
+}
+.cta-section h2 { font-size: clamp(22px, 3.5vw, 36px); font-weight: 800; margin-bottom: 12px; }
+.cta-section p { color: var(--sub); font-size: 15px; margin-bottom: 32px; }
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  color: var(--sub); font-size: 13px;
+}
+footer a { color: var(--sub); text-decoration: none; }
+footer a:hover { color: var(--text); }
+
+@media (max-width: 640px) {
+  .steps { flex-direction: column; align-items: center; }
+  .step-arrow { display: none; }
+  .req-grid { grid-template-columns: 1fr; }
+  .sim-demo { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── 导航 ── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">🍱</div>
+    <span class="nav-logo-text">北交大食堂仿真</span>
+  </a>
+  <div class="nav-links">
+    <a href="#steps">使用方法</a>
+    <a href="#features">功能介绍</a>
+    <a href="#requirements">系统要求</a>
+    <a href="https://github.com/huih99061-source/bjtu-canteen" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-badge">🎓 北京交通大学 · 经济管理学院综合实训</div>
+  <h1>学生活动中心食堂<br><span>就餐仿真系统</span></h1>
+  <p class="hero-sub">可视化仿真食堂全流程——实时座位状态、窗口排队、菜品查看与评价，一键下载开箱即用。</p>
+
+  <div class="hero-actions">
+    <a class="btn-dl"
+       href="https://github.com/huih99061-source/bjtu-canteen/releases/latest/download/bjtu-canteen-portable.zip"
+       id="downloadBtn">
+      <span class="dl-icon">⬇</span>
+      <span>
+        立即下载
+        <small>bjtu-canteen-portable.zip · Windows 10/11</small>
+      </span>
+    </a>
+    <a class="btn-src"
+       href="https://github.com/huih99061-source/bjtu-canteen"
+       target="_blank">
+      ⭐ 查看源码
+    </a>
+  </div>
+
+  <p class="hero-note">
+    <span>✓ 无需安装任何软件</span> &nbsp;·&nbsp;
+    解压即用 &nbsp;·&nbsp;
+    内置 JRE + MySQL
+  </p>
+</section>
+
+<!-- ── 系统预览 ── -->
+<div class="preview">
+  <div class="preview-wrap">
+    <div class="preview-bar">
+      <div class="dot-red"></div>
+      <div class="dot-yel"></div>
+      <div class="dot-grn"></div>
+      <div class="preview-url">北京交通大学 · 学生活动中心食堂 · 就餐仿真系统</div>
+    </div>
+    <div class="preview-body">
+      <div class="sim-demo">
+        <!-- 左侧统计 -->
+        <div class="demo-panel">
+          <div class="demo-stat">
+            <div class="num">247</div>
+            <div class="lbl">当前总人数</div>
+          </div>
+          <div class="demo-stat">
+            <div class="num" style="color:var(--green)">73</div>
+            <div class="lbl">剩余空座</div>
+          </div>
+          <div style="font-size:11px;color:var(--sub);margin:12px 0 6px">📋 窗口排队</div>
+          <div class="demo-queue">
+            <div class="q-item"><span class="q-name">米饭</span><div class="q-bar-wrap"><div class="q-bar high" style="width:82%"></div></div><span class="q-cnt">12</span></div>
+            <div class="q-item"><span class="q-name">面条</span><div class="q-bar-wrap"><div class="q-bar medium" style="width:47%"></div></div><span class="q-cnt">7</span></div>
+            <div class="q-item"><span class="q-name">炒菜</span><div class="q-bar-wrap"><div class="q-bar high" style="width:73%"></div></div><span class="q-cnt">11</span></div>
+            <div class="q-item"><span class="q-name">包子</span><div class="q-bar-wrap"><div class="q-bar low" style="width:20%"></div></div><span class="q-cnt">3</span></div>
+            <div class="q-item"><span class="q-name">麻辣烫</span><div class="q-bar-wrap"><div class="q-bar medium" style="width:40%"></div></div><span class="q-cnt">6</span></div>
+            <div class="q-item"><span class="q-name">饮品</span><div class="q-bar-wrap"><div class="q-bar low" style="width:13%"></div></div><span class="q-cnt">2</span></div>
+            <div class="q-item"><span class="q-name">清真</span><div class="q-bar-wrap"><div class="q-bar medium" style="width:33%"></div></div><span class="q-cnt">5</span></div>
+          </div>
+        </div>
+
+        <!-- 中间座位图 -->
+        <div class="demo-panel">
+          <div style="font-size:11px;color:var(--sub);margin-bottom:8px;text-align:center">
+            🗺 学生活动中心食堂（一层）平面图 · 320座
+          </div>
+          <div class="demo-seats" id="demoSeats"></div>
+          <div style="margin-top:8px;display:flex;gap:12px;justify-content:center;font-size:11px;color:var(--sub)">
+            <span>🟢 就餐中</span>
+            <span>🟡 已占座</span>
+            <span>⬛ 空座</span>
+          </div>
+        </div>
+
+        <!-- 右侧评价 -->
+        <div class="demo-panel">
+          <div style="font-size:11px;color:var(--sub);margin-bottom:8px">💬 菜品评价</div>
+          <div style="background:var(--bg);border-radius:6px;padding:8px;margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;font-size:10px">
+              <span style="color:var(--text);font-weight:700">米饭窗口</span>
+              <span style="color:var(--yellow)">★★★★☆</span>
+            </div>
+            <div style="font-size:10px;color:var(--sub);margin-top:4px">红烧肉盖饭很好吃！</div>
+          </div>
+          <div style="background:var(--bg);border-radius:6px;padding:8px;margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;font-size:10px">
+              <span style="color:var(--text);font-weight:700">面条窗口</span>
+              <span style="color:var(--yellow)">★★★★★</span>
+            </div>
+            <div style="font-size:10px;color:var(--sub);margin-top:4px">牛肉面分量足，推荐！</div>
+          </div>
+          <div style="background:var(--bg);border-radius:6px;padding:8px;">
+            <div style="display:flex;justify-content:space-between;font-size:10px">
+              <span style="color:var(--text);font-weight:700">炒菜窗口</span>
+              <span style="color:var(--yellow)">★★★☆☆</span>
+            </div>
+            <div style="font-size:10px;color:var(--sub);margin-top:4px">今天的菜有点咸</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 步骤 ── -->
+<section class="steps-section" id="steps">
+  <h2 class="section-title">三步启动，开箱即用</h2>
+  <p class="section-sub">无需安装 Java、MySQL 或任何开发环境，解压即运行</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-icon">📦</div>
+      <h3>下载压缩包</h3>
+      <p>点击上方下载按钮，获取 <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px">bjtu-canteen-portable.zip</code></p>
+      <span class="step-arrow">›</span>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-icon">📂</div>
+      <h3>解压到任意位置</h3>
+      <p>右键选择「解压到此处」，建议解压到无中文路径的目录</p>
+      <span class="step-arrow">›</span>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-icon">▶️</div>
+      <h3>双击启动系统.exe</h3>
+      <p>等待约 <strong>30 秒</strong>（首次启动需初始化数据库），浏览器将自动打开仿真系统</p>
+      <span class="step-arrow">›</span>
+    </div>
+    <div class="step">
+      <div class="step-num">✓</div>
+      <div class="step-icon">🎉</div>
+      <h3>桌面快捷方式已就绪</h3>
+      <p>系统自动在桌面创建「北交大食堂仿真」快捷方式，下次直接点击即可</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 功能 ── -->
+<section class="features-section" id="features">
+  <h2 class="section-title">功能一览</h2>
+  <p class="section-sub">全面覆盖食堂就餐全流程</p>
+
+  <div class="features">
+    <div class="feat">
+      <div class="feat-icon">🕐</div>
+      <h3>实时仿真时钟</h3>
+      <p>支持 0.5× ~ 60× 调速，可视化早餐 / 午餐 / 晚餐三个时段高峰流量</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🪑</div>
+      <h3>座位平面图</h3>
+      <p>320 个座位（80桌×4座）实时状态，支持点阵视图与热力图动画切换</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📋</div>
+      <h3>窗口排队可视化</h3>
+      <p>7 个窗口队列人数实时展示，颜色区分拥挤程度，附带趋势折线图</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🍽️</div>
+      <h3>菜品菜单查看</h3>
+      <p>点击任意窗口弹出完整菜单及价格，数据存储于本地数据库</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">💬</div>
+      <h3>菜品评价系统</h3>
+      <p>提交评分与文字评论，数据持久化存入 MySQL，实时展示最新评价</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🌐</div>
+      <h3>无网络也可运行</h3>
+      <p>后端不可用时自动切换前端本地仿真模式，无需互联网连接</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 系统要求 ── -->
+<section class="req-section" id="requirements">
+  <h2 class="section-title">系统要求</h2>
+  <p class="section-sub">完全绿色便携，无需提前安装任何软件</p>
+
+  <div class="req-box">
+    <div class="req-grid">
+      <div class="req-item">
+        <span class="ico">🖥</span>
+        <div>
+          <h4>操作系统</h4>
+          <p>Windows 10 / Windows 11（64位）</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <span class="ico">💾</span>
+        <div>
+          <h4>磁盘空间</h4>
+          <p>解压后约 500 MB（含 JRE + MySQL）</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <span class="ico">🧠</span>
+        <div>
+          <h4>内存</h4>
+          <p>建议 4 GB 及以上</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <span class="ico">🌐</span>
+        <div>
+          <h4>网络</h4>
+          <p>无需网络（完全本地运行）</p>
+        </div>
+      </div>
+    </div>
+    <div class="req-note">
+      ✓ &nbsp;压缩包内已内置 JRE 21 与 MySQL 8.0，无需任何前置安装
+    </div>
+  </div>
+</section>
+
+<!-- ── 底部 CTA ── -->
+<section class="cta-section">
+  <h2>立即体验食堂仿真系统</h2>
+  <p>S005 小组 · 黄惠 · 赖特 · 姚沚汐 &nbsp;|&nbsp; 北京交通大学经济管理学院综合实训</p>
+  <a class="btn-dl"
+     href="https://github.com/huih99061-source/bjtu-canteen/releases/latest/download/bjtu-canteen-portable.zip">
+    <span class="dl-icon">⬇</span>
+    <span>
+      下载便携版
+      <small>bjtu-canteen-portable.zip</small>
+    </span>
+  </a>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <span>© 2026 北京交通大学经济管理学院 S005 小组</span>
+  <span>
+    <a href="https://github.com/huih99061-source/bjtu-canteen" target="_blank">GitHub</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/huih99061-source/bjtu-canteen/issues" target="_blank">反馈问题</a>
+  </span>
+</footer>
+
+<script>
+// 生成示意座位图
+(function() {
+  const el = document.getElementById('demoSeats');
+  if (!el) return;
+  const statuses = [];
+  for (let i = 0; i < 160; i++) {
+    const r = Math.random();
+    statuses.push(r < 0.55 ? 'd' : r < 0.72 ? 'r' : 'e');
+  }
+  el.innerHTML = statuses.map(s => `<div class="seat ${s}"></div>`).join('');
+})();
+
+// 下载按钮点击统计（可选）
+document.querySelectorAll('.btn-dl').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // 可在此接入 GA/统计埋点
+  });
+});
+</script>
+
+</body>
+</html>

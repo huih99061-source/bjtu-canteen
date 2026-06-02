@@ -109,4 +109,5 @@ public class CanteenController {
     public ApiResult<?> getFeedback(@RequestParam(defaultValue = "20") int limit) {
        return ApiResult.ok(feedbackMapper.findRecent(limit));
     }
+
 }

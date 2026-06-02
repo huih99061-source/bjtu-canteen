@@ -2,6 +2,7 @@
 -- 北京交通大学就餐仿真系统 - 数据库初始化脚本
 -- =====================================================
 
+SET NAMES utf8mb4;
 CREATE DATABASE IF NOT EXISTS bjtu_canteen DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE bjtu_canteen;
 

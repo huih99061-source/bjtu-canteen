@@ -164,7 +164,7 @@ function localSimTick() {
 }
 
 function getMealPeriodLocal(h) {
-  if (h >= 7 && h < 9)  return 'breakfast';
+  if (h >= 7 && h < 9) return 'breakfast';
   if (h >= 11 && h < 13) return 'lunch';
   if (h >= 17 && h < 19) return 'dinner';
   return 'off';
@@ -172,9 +172,9 @@ function getMealPeriodLocal(h) {
 
 function getArrivalMultiplier(hour, minute, period) {
   let t; // minutes since period start
-  if (period === 'breakfast') t = (hour - 7)  * 60 + minute;
-  else if (period === 'lunch')    t = (hour - 11) * 60 + minute;
-  else if (period === 'dinner')   t = (hour - 17) * 60 + minute;
+  if (period === 'breakfast') t = (hour - 7) * 60 + minute;
+  else if (period === 'lunch') t = (hour - 11) * 60 + minute;
+  else if (period === 'dinner') t = (hour - 17) * 60 + minute;
   else return 0;
   // 梯形：前30分钟爬坡，中间60分钟高峰，后30分钟下坡
   if (t < 0 || t >= 120) return 0;
@@ -187,9 +187,9 @@ function calcArrivalsLocal(period, tickSec) {
   if (period === 'off') return 0;
   let rate;
   switch (period) {
-    case 'breakfast': rate = 3.0;  break; // 高峰3人/分钟，早餐轻度
-    case 'lunch':     rate = 10.0; break; // 高峰10人/分钟，午餐主峰
-    case 'dinner':    rate = 7.0;  break; // 高峰7人/分钟，晚餐次峰
+    case 'breakfast': rate = 3.0; break; // 高峰3人/分钟，早餐轻度
+    case 'lunch': rate = 10.0; break; // 高峰10人/分钟，午餐主峰
+    case 'dinner': rate = 7.0; break; // 高峰7人/分钟，晚餐次峰
     default: return 0;
   }
   const mult = getArrivalMultiplier(localState.hour, localState.minute, period);
