@@ -12,6 +12,10 @@ portable/mysql/bin/
 portable/mysql/data/
 portable/mysql/lib/
 portable/mysql/share/
+portable/mysql/include/
+portable/mysql/docs/
+portable/mysql/LICENSE
+portable/mysql/README
 portable/app.jar
 portable/init.sql
 portable/frontend/
