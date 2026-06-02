@@ -72,10 +72,12 @@ xcopy "%ROOT%frontend" "%PORTABLE%\frontend" /E /I /Y /Q > nul
 copy "%ROOT%database\init.sql" "%PORTABLE%\init.sql" > nul
 echo       复制完成。
 
-:: ── 清理 portable 内的旧 .bat 启动文件（用 exe 替代）──
-:: 保留 my.ini，删除旧批处理（用 exe 替代，避免用户混淆）
+:: ── 清理不应打包的文件 ────────────────────────────
 if exist "%PORTABLE%\启动.bat" del "%PORTABLE%\启动.bat"
 if exist "%PORTABLE%\停止.bat" del "%PORTABLE%\停止.bat"
+:: 删除已初始化的数据库数据（用户应从干净状态启动）
+if exist "%PORTABLE%\mysql\data\" rd /s /q "%PORTABLE%\mysql\data"
+echo       已清理旧数据库数据。
 
 :: ── 打包 ZIP ──────────────────────────────────────
 echo [4/5] 打包 ZIP...
@@ -92,18 +94,18 @@ echo       ZIP 已生成：bjtu-canteen-portable.zip
 :: ── 完成 ──────────────────────────────────────────
 echo [5/5] 构建完成！
 echo.
-echo ┌──────────────────────────────────────────────────────┐
-echo │  输出文件：bjtu-canteen-portable.zip                 │
-echo │                                                      │
-echo │  用户操作：                                          │
-echo │    1. 解压 ZIP 到任意文件夹                           │
-echo │    2. 双击  启动系统.exe                             │
-echo │    3. 等待约30秒（首次初始化数据库）                  │
-echo │    4. 浏览器自动打开食堂仿真系统                      │
-echo │    5. 桌面自动生成快捷方式                            │
-echo │                                                      │
-echo │  发布到 GitHub Releases：                            │
-echo │    上传 bjtu-canteen-portable.zip                    │
-echo └──────────────────────────────────────────────────────┘
+echo +------------------------------------------------------+
+echo   输出文件：bjtu-canteen-portable.zip
+echo.
+echo   用户操作：
+echo     1. 解压 ZIP 到任意文件夹
+echo     2. 双击  启动系统.exe
+echo     3. 等待约30秒（首次初始化数据库）
+echo     4. 浏览器自动打开食堂仿真系统
+echo     5. 桌面自动生成快捷方式
+echo.
+echo   发布到 GitHub Releases：
+echo     上传 bjtu-canteen-portable.zip
+echo +------------------------------------------------------+
 echo.
 pause
