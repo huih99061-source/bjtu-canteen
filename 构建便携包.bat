@@ -99,7 +99,7 @@ echo   输出文件：bjtu-canteen-portable.zip
 echo.
 echo   用户操作：
 echo     1. 解压 ZIP 到任意文件夹
-echo     2. 双击  启动系统.exe
+echo     2. 双击  食堂仿真系统.exe
 echo     3. 等待约30秒（首次初始化数据库）
 echo     4. 浏览器自动打开食堂仿真系统
 echo     5. 桌面自动生成快捷方式

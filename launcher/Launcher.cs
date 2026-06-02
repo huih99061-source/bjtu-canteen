@@ -212,7 +212,7 @@ class Launcher
             string shortcutPath = Path.Combine(desktop, "北交大食堂仿真.lnk");
             if (File.Exists(shortcutPath)) return;
 
-            string target = Path.Combine(dir, "启动系统.exe");
+            string target = Path.Combine(dir, "食堂仿真系统.exe");
             Encoding enc = Encoding.GetEncoding(936); // GBK for VBScript on Chinese Windows
             string vbs =
                 "Set ws = CreateObject(\"WScript.Shell\")\r\n" +
